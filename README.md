@@ -1,7 +1,7 @@
 # Dynamic Graphviz 
 
 This project allows for a conversion of excel files into dot language source files in the backend.
-Aswell as a dynamic display of this dot source image (DynamicGraphviz.html) or a static display (graphviz.html)
+Aswell as a dynamic display of this dot source image [DynamicGraphviz.html](public/DynamicGraphviz.html) or a static display [graphviz.html](public/graphviz.html)
 
 
 ### File structure
