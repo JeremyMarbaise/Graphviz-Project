@@ -14,14 +14,14 @@ The server directory is for files stored on the server side, it contains a direc
 ### Backend
 
 The backend uses Express to route and serve. 
-It uses the xlxs module to import the excel worksheet and transform it into a json. [xlsx]
-The graphviz-builde module is used to convert the joblabel and dependencies of the json into a dot source, where the joblabel constitute the nodes and the edges are defined
-by a combination of joblabel and the affected dependencies [graphviz-builder].
+It uses the [xlsx] module to import the excel worksheet and transform it into a json. 
+The [graphviz-builder] module is used to convert the joblabel and dependencies of the json into a dot source, where the joblabel constitute the nodes and the edges are defined
+by a combination of joblabel and the affected dependencies .
 
 ### Static Graphviz
 
-The static conversion of a dot source into an svg is done with the d3-graphviz module [d3-graphviz].
-Which is dependent on the visualization library d3 [d3] and the graphviz javascript library viz [viz].
+The static conversion of a dot source into an svg is done with the [d3-graphviz] module.
+Which is dependent on the visualization library [d3] and the graphviz javascript library [viz].
 These 3 modules can be referenced through [unpkg]. 
 In my project I use version 2.1.0 of d3-graphviz.
 
@@ -36,7 +36,7 @@ In my project I use version 2.1.0 of d3-graphviz.
 ### DynamicGraphiv.html
 
 The dynamic Graphviz html lets you move nodes independently from each other through dragging of the mouse.
-The library used for this dynamic display is viz Network [viz-network].
+The library used for this dynamic display is [viz-network].
 Viz Network provides methods to convert a dot source string into a readable format for the library.
 
 ```javascript
