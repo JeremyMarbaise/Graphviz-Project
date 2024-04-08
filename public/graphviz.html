@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>graphviz demo</title>
+        <script language="javascript" src="jquery-3.7.1.js"></script>
+        <link rel="stylesheet" href="gridstyle.css">
+        <script src="https://d3js.org/d3.v5.js"></script>
+        <script src="https://unpkg.com/viz.js@1.8.1/viz.js" type="application/javascript"></script>
+        <script src="https://unpkg.com/@hpcc-js/wasm@2/dist/graphviz.umd.js" type="javascript/worker"></script>
+        <script src="https://unpkg.com/d3-graphviz@2.1.0/build/d3-graphviz.js"></script>
+      
+    </head>
+
+    <body>
+        <div class="grid">
+            <div class="SideBackground"></div>
+            <label id="selectLabel" class="grid-item">Select a job</label>
+            <select id="JobSelect" class="grid-item">
+            </select>
+            <div id="svg"></svg></div>
+  
+
+
+        </div>
+        <footer class="footer">
+           
+        </footer>
+    </body>
+
+    <script>
+        //***********************************************************************//
+        //Display filenames in server/Excelfiles repository as options of select component
+        //***********************************************************************//
+
+        var oldOptions;
+        var newOptions;
+        $("#JobSelect").click(function(){
+            $.ajax({url:"getFilenames",success: function(result){
+            newOptions=result;
+            $("#label").text(newOptions);
+            if(JSON.stringify(newOptions)!=JSON.stringify(oldOptions))
+            {
+                $("#JobSelect").empty()
+                $.each(newOptions,function(index,filename){
+                
+                $("#JobSelect").append($("<option></option>")
+                    .attr("value", filename).text(filename));
+                });   
+            }
+            //Oldoptions are saved so the ui gets only uptdated when a filename gets changed/deleted/added 
+            oldOptions=newOptions;
+
+            }});
+
+         
+            //create linear transition when switching graphs
+
+                var t = d3.transition()
+            .duration(750)
+            .ease(d3.easeLinear);
+
+        
+        
+
+
+            
+
+        $("#JobSelect").on('change',function(){
+            var selectedFilename=$('#JobSelect option:selected').text();
+            $.ajax({url:"/GetDotSource?filename="+selectedFilename,success: function(result){
+                
+                $("#svg").empty();
+
+                    selection=d3.select("#svg")
+                               
+
+
+                    graphviz= selection.graphviz(false)
+                    .transition(t)
+                    
+                    .renderDot(result)
+
+
+
+            }});
+
+        });
+
+});
+
+        
+
+
+    </script>
+
+
+        
