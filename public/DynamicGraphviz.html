@@ -12,8 +12,12 @@
 
 <body>
     <div class="grid">
+        <div id="MenuBar">
+            <button class="MenuButton" id="File">File</button>
+            <button class="MenuButton" id="Static">Static</button>
+        </div>
         <div class="SideBackground"></div>
-        <label id="selectLabel" class="grid-item">Select a job</label>
+        <label id="selectLabel" class="grid-item">Select a Table</label>
         <select id="JobSelect" class="grid-item">
         </select>
         <div id="svg"></svg></div>
@@ -35,14 +39,15 @@
     $("#JobSelect").click(function(){
         $.ajax({url:"getFilenames",success: function(result){
         newOptions=result;
-        $("#label").text(newOptions);
         if(JSON.stringify(newOptions)!=JSON.stringify(oldOptions))
         {
             $("#JobSelect").empty()
             $.each(newOptions,function(index,filename){
             
             $("#JobSelect").append($("<option></option>")
-                .attr("value", filename).text(filename));
+                .attr("value", filename).text(filename)
+                .attr("label",filename.split(".",1))
+            );
             });   
         }
         //Oldoptions are saved so the ui gets only uptdated when a filename gets changed/deleted/added 
@@ -70,9 +75,17 @@
 
             }});
 
-});
+            });
 
-});
+        });
+
+
+        $("#Static").click(function(){
+            window.location.replace("/graphviz");
+            
+
+        })
+
 </script>
 
 
