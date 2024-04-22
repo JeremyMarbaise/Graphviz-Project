@@ -52,6 +52,12 @@ The module can be referenced through unpkg
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 ```
 
+### MenuFunctionalities
+
+The menu allows you to switch between dynamic and static graphviz.
+You can upload a file through the menu or through the drag and drop api.
+You can save the dynamic graphviz as a png and the static graphviz as a svg.
+
 
 
 [xlsx]: https://www.npmjs.com/package/xlsx

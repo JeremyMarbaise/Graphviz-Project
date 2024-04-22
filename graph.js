@@ -4,6 +4,12 @@ const fs = require('fs');
 const path=require('path');
 const xlsx=require('xlsx');
 const graphvizBuilder= require('graphviz-builder');
+const multer = require('multer');
+
+// Set up Multer storage
+const storage = multer.memoryStorage(); // Store files in memory (without saving to disk)
+const upload = multer({ storage });
+
 
 
 const appPort = 8080;
@@ -46,9 +52,35 @@ app.get('/getFilenames',(requ,res)=>{
 app.get('/GetDotSource',(req,res)=>
 {
     var filename=path.join(__dirname,'server/ExcelFiles/')+req.query.filename;
-
+    
     var workbook=xlsx.readFile(filename);
-    var sheet=workbook.Sheets['Jobs'];
+
+
+    res.send(CreateDotSource(workbook));
+
+
+ 
+});
+
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    // Access the uploaded file using req.file
+    const uploadedFile = req.file;
+  
+    var workbook=xlsx.read(uploadedFile.buffer);
+    res.send(CreateDotSource(workbook));
+
+})
+
+
+
+
+
+//function takes an excel workbook and returns a string that contains the dot source 
+function CreateDotSource(wb)
+{
+
+    var sheet=wb.Sheets['Jobs'];
 
     var jason=xlsx.utils.sheet_to_json(sheet);
     var jobs=[];
@@ -95,19 +127,15 @@ app.get('/GetDotSource',(req,res)=>
             
 
             
-            }
-                );
+            });
             
          }
         
                
     })
+    return dot.to_dot();
+}
 
-    res.send(dot.to_dot());
-
-
- 
-});
 
 
 

@@ -21,7 +21,7 @@ html,body {
     margin-top: 0;
     display: inline-grid;
     grid-template-columns: repeat(12,1fr);
-    grid-template-rows: 25px repeat(8,2fr);
+    grid-template-rows: 25px 25px repeat(7,2fr);
     background-color: #999;
 
     justify-content: center;
@@ -75,11 +75,11 @@ html,body {
 }
 
 
-.SideBackground
+.SideBackground 
 {
     
     grid-column: 1/3;
-    grid-row: 2/10;
+    grid-row: 3/10;
     background: #222;
     border:#555 solid 3px
 }
@@ -103,5 +103,26 @@ html,body {
 .MenuButton
 {
     background-color:transparent;
-    color:white; 
+    color:#BBB; 
 }
+
+
+#Submenu
+{
+    grid-row:2/3;
+    grid-column: 1/3;
+    background: #222;
+    border:#555 solid ;
+    border-width: 3px 3px 0 3px;
+}
+.Submenucontent 
+{
+    display:none;
+
+    flex-direction: row;
+
+   
+
+}
+
+

@@ -19,18 +19,36 @@
                 <button class="MenuButton" id="Dynamic">Dynamic</button>
             </div>
 
+            <div id="Submenu">
+                <div class="Submenucontent">
+                    <button class="MenuButton" id="SaveImage">Save Image</button>
+                    <button class="MenuButton" id="UploadFile">Upload File</button>
+                </div>
+            </div>
+
+
+
             <div class="SideBackground"></div>
             <label id="selectLabel" class="grid-item">Select a Table</label>
             <select id="JobSelect" class="grid-item">
             </select>
+
             <div id="svg"></svg></div>
   
-
-
+         
         </div>
         <footer class="footer">
            
         </footer>
+
+           <!-- Input element to upload file -->
+        <form style="display: none" method="post" enctype="multipart/form-data" action="/upload">
+            <input style="display:none" type="file" name="file" id="my-file" accept=".xlsx">
+            <button id="submit" type="submit">submit</button>  
+        </form>
+
+
+
     </body>
 
     <script>
@@ -73,8 +91,8 @@
         
 
 
-            
-
+       
+        //Create svg when the selected file changed
         $("#JobSelect").on('change',function(){
             var selectedFilename=$('#JobSelect option:selected').text();
             $.ajax({url:"/GetDotSource?filename="+selectedFilename,success: function(result){
@@ -82,25 +100,128 @@
                 $("#svg").empty();
 
                     selection=d3.select("#svg")
-                               
-
-
                     graphviz= selection.graphviz(false)
                     .transition(t)
-                    
-                    .renderDot(result)
+                    .renderDot(result);
 
 
 
-            }});
+              }});
+
+            });
 
         });
 
-});
-
+        //switch to dynamic graphviz
         $("#Dynamic").click(function(){
             window.location.replace("/");
         })
+
+
+        //expand submenu when clicking on file and retract submenu when clicking on the rest of the page
+
+        $("div,label,select").not(".grid").not("#MenuBar").not("#Submenu").not(".Submenucontent").click(function(){
+
+        $(".Submenucontent").css('display',' none');
+        })
+
+        $("#File").click(function(){
+
+            $(".Submenucontent").css('display','flex');
+
+
+        })
+
+        //***************************************//
+        //save as svg
+        //**************************************//
+        $("#SaveImage").click(function()
+        {
+            
+            let htmlStr=document.querySelector('svg').outerHTML;
+            const blob=new Blob([htmlStr],{type:"image/svg+xml"});
+            const url=URL.createObjectURL(blob);
+
+            const createEl = document.createElement('a');
+            createEl.href = url;
+            createEl.download = "SVGDownload";
+            createEl.click();
+            createEl.remove();
+
+        })
+
+        //upload Excel file form
+        $("#UploadFile").click(function()
+        {
+            $("#my-file").click();
+
+        })
+
+        // submit form when file is picked
+        $("#my-file").change(function(){
+            $("#submit").click();
+
+            })
+
+
+        //Handle Form submit 
+        document.querySelector('form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(this); // Get form data
+        const url = '/upload'; // Replace with your backend URL
+
+        try {
+            const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            });
+            if (response.ok) {
+            // Handle successful response (e.g., display a success message)
+            const responseData = await response.text(); // Get the response as a string
+
+
+            //display svg from dot source 
+            $("#svg").empty();
+            selection=d3.select("#svg")
+            graphviz= selection.graphviz(false)
+            .renderDot(responseData);
+            
+
+
+
+            } else {
+            // Handle error response (e.g., display an error message)
+            console.error('Error sending data:', response.status);
+            }
+        } catch (error) {
+            console.error('Error sending data:', error);
+        }
+    });
+
+
+
+    //***********************************************//
+    //*****Handle drag and drop
+    //**********************************************//
+    document.querySelector('#svg').addEventListener('dragover',function(evt) {
+    evt.preventDefault();
+    });
+    
+
+    document.querySelector('#svg').addEventListener('drop', function(evt) {
+    
+    evt.preventDefault();
+    
+    const fileInput=document.getElementById('my-file');    
+    fileInput.files = evt.dataTransfer.files;
+    $("#submit").click();
+
+
+    });
+
+
+
 
 
 
