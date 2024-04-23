@@ -63,7 +63,7 @@ You can save the dynamic graphviz as a png and the static graphviz as a svg.
 [xlsx]: https://www.npmjs.com/package/xlsx
 [graphviz-builder]: https://www.npmjs.com/package/graphviz-builder
 [d3-graphviz]: https://www.npmjs.com/package/d3-graphviz/v/2.1.0
-[d3]: https://github.com/magjac/d3-graphviz
+[d3]: https://d3js.org/
 [viz]: https://github.com/mdaines/viz-js
 [unpkg]: https://unpkg.com/
 [viz-network]: https://visjs.github.io/vis-network/docs/network/
