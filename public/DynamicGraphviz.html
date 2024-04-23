@@ -40,8 +40,9 @@
     <footer class="footer">
        
     </footer>
-       <!-- Input element to upload file -->
-       
+
+
+       <!-- Input element to upload file -->   
     <form style="display: none" method="post" enctype="multipart/form-data" action="/upload">
         <input style="display:none" type="file" name="file" id="my-file" accept=".xlsx">
         <button id="submit" type="submit">submit</button>  
@@ -192,7 +193,7 @@
     //*****Handle drag and drop
     //**********************************************//
     document.querySelector('#svg').addEventListener('dragover',function(evt) {
-    evt.preventDefault();
+        evt.preventDefault();
     });
     
 
